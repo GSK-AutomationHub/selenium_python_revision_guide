@@ -1,0 +1,74 @@
+decorator to be used = @pytest.fixture
+fixture attributes = @pytest.fixture(autouse,scope,params)
+fixture scopes = function(default), class, module, session
+
+--------------------------------------------------------------------------------------------------
+# fixture format when python modules only have functions & no classes defined
+@pytest.fixture(autouse=True, scope="function")
+def setup_and_teardown():
+    print("launch the browser")
+    print("access AUT in the browser")
+    yield
+    print("logout of application")
+    print("quit the browser")
+
+--------------------------------------------------------------------------------------------------
+# fixture format when python modules has classes defined
+@pytest.fixture(scope="function")
+    print("launch the browser")
+    print("access AUT in the browser")
+    request.cls.driver = driver  <----
+    yield driver  <----
+    print("logout of application")
+    print("quit the browser")
+
+also, at class level we use decorator @pytest.mark.usefixtures("setup_and_teardown")
+e.g.
+@pytest.mark.usefixtures("setup_and_teardown") <----
+class TestLogin:
+
+--------------------------------------------------------------------------------------------------
+# parameterize the fixture for cross browser testing
+@pytest.fixture(scope="function", params=['chrome','firefox','edge'])
+def setup_and_teardown(request):  <----
+    if request.param == 'chrome'
+        print("launch the chrome browser")
+    elif request.param == 'firefox'
+        print("launch the firefox browser")
+    elif request.param == 'edge'
+        print("launch the edge browser")
+    else:
+        print("not valid browser.. terminating the test")
+    print("access AUT in the browser")
+    request.cls.driver = driver  <----
+    yield driver  <----
+    print("logout of application")
+    print("quit the browser")
+
+--------------------------------------------------------------------------------------------------
+# add option though fixture
+
+=> this function will read browser value from console
+def pytest_addoption(parser):
+    parser.addoption("--browser")
+
+@pytest.fixture(scope="function")
+def setup_and_teardown(request):
+    browser = request.config.getoption("--browser") <---- passing browser option value in fixture
+    if browser.casefold() == 'chrome'
+        print("launch the chrome browser")
+    elif browser.casefold() == 'firefox'
+        print("launch the firefox browser")
+    elif browser.casefold() ==  'edge'
+        print("launch the edge browser")
+    else:
+        print("not valid browser.. terminating the test")
+    print("access AUT in the browser")
+    request.cls.driver = driver  <----
+    yield driver  <----
+    print("logout of application")
+    print("quit the browser")
+
+pytest test_sample.py -rA --browser='Chrome'
+OR
+pytest test_sample.py -rA --browser Chrome

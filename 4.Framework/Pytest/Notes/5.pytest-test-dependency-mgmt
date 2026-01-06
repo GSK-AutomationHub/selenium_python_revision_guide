@@ -1,0 +1,33 @@
+# How to manage test dependencies
+
+    Using pytest-order: pip install pytest-order
+    @pytest.mark.order marker can be used to define the desired order
+    Common string literals include "first", "last", "second", "second\_to\_last", etc.
+
+    e.g.
+     @pytest.mark.order("first")
+        def test_a():
+            assert True
+
+        @pytest.mark.order(1)
+        def test_b():
+            assert True
+
+     Relative Ordering: to specify the order relative to other tests by providing a list of test names:
+
+     def test_dependency():
+            assert True
+
+        @pytest.mark.order(after/before/depends ="test_dependency")
+        def test_dependent():
+            assert True
+
+     OR use pytest-dependency --> pip install pytest-dependency
+
+     @pytest.mark.dependency()
+        def test_long():
+        pass
+
+     @pytest.mark.dependency(depends=['test_long'])
+        def test_short():
+        pass

@@ -1,0 +1,28 @@
+# Rerunning Failed Tests from a Previous Run -
+
+  1. pytest --lf or pytest --last-failed:
+    => This command will only run the tests that failed in the immediately preceding Pytest execution.
+    This is useful for quickly verifying fixes.
+
+  2. pytest --ff or pytest --failed-first:
+    => This command runs all tests, but prioritizes and runs the tests that failed in the previous run first.
+    This allows for a quick check of the failed tests while still ensuring all tests are eventually executed.
+
+  3. Using plug-in pytest-rerunfailures (Automatically Retrying Flaky Tests)
+    => For tests that might occasionally fail due to transient/env issues (flaky tests),
+    the pytest-rerunfailures plugin can be used to automatically retry them.
+
+    pip install pytest-rerunfailures
+
+    Usage:
+    Globally: To retry all failed tests a specified number of times:
+    pytest --reruns <number_of_retries> [e.g. pytest --reruns 3 ]
+    It will retry failed tests up to 3 times.
+
+    @pytest.mark.flaky decorator:
+    To mark individual tests for automatic retries
+
+        @pytest.mark.flaky(retries=5)
+        def test_flaky_example():
+            # Your test code here, which might occasionally fail
+            pass

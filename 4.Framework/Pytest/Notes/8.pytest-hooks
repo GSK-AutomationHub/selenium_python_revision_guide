@@ -1,0 +1,18 @@
+
+# function hooks
+
+def setup_function(function):
+    pass
+
+def teardown_function(function):
+    pass
+
+-----------------------------------------------------------
+
+# module hooks
+
+def setup_module(module):
+    pass
+
+def teardown_module(module):
+    pass

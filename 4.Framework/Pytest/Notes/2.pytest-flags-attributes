@@ -1,0 +1,34 @@
+pytest test_sample.py -vs OR -rA
+
+pytest test_sample.py -rA --html = report.html
+
+# keyword run
+pytest test_sample.py -k cart -rA
+pytest test_sample.py -k "cart or payment" -rA
+pytest test_sample.py -k "not cart" -rA
+
+# custom marker run @pytest.mark.smoke/sanity
+pytest test_sample.py -m smoke -rA
+pytest test_sample.py -m "smoke or sanity" -rA
+pytest test_sample.py -m "not smoke" -rA
+
+# parallel execution with n i.e. 'workers'
+pytest test_sample.py -n 3 -rA
+pytest test_sample.py -n auto -rA
+
+# rerun failed tests
+pytest test_sample.py -rA --lf / pytest test_sample.py -rA --last-failed
+pytest test_sample.py -rA --ff / pytest test_sample.py -rA --first-failed
+pytest test_sample.py -rA --reruns 3
+@pytest.mark.flaky(retries=3)
+
+# soft assertions
+pytest test_sample.py -rA --soft-asserts
+
+# build-in markers
+@pytest.mark.skip
+@pytest.mark.skipif()
+@pytest.mark.xfail
+@pytest.mark.parameterize()
+@pytest.mark.usefixtures()
+@pytest.mark.order()

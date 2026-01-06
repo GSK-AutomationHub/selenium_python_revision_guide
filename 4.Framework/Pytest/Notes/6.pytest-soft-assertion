@@ -1,0 +1,14 @@
+# Soft vs Hard assertion
+    Hard assertions:
+    => immediately stop test execution upon failure.
+
+    Soft assertions:
+    => allow test execution to continue even after an assertion fails,
+    collecting all failures and reporting them at the end of the test function
+
+    Soft assertions installation
+    pip install pytest-soft-assertions
+
+    How to do Soft assertion
+    pytest --soft-asserts your_test_file.py
+    pytest-check is another method
